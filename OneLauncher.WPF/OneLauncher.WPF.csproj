@@ -179,6 +179,7 @@
     <Compile Include="Models\DownloadDialogViewModel.cs" />
     <Compile Include="Downloading\DownloadItem.cs" />
     <Compile Include="Models\DownloadViewModel.cs" />
+    <Compile Include="Models\LaunchOption.cs" />
     <Compile Include="Models\SettingsViewModel.cs" />
     <Compile Include="Models\StartPageViewModel.cs" />
     <Compile Include="View\DownloadDialog.xaml.cs">
@@ -186,6 +187,9 @@
     </Compile>
     <Compile Include="View\DownloadPage.xaml.cs">
       <DependentUpon>DownloadPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\LaunchOptionPage.xaml.cs">
+      <DependentUpon>LaunchOptionPage.xaml</DependentUpon>
     </Compile>
     <Compile Include="View\UserDialog.xaml.cs">
       <DependentUpon>UserDialog.xaml</DependentUpon>
@@ -225,6 +229,10 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Include="View\DownloadPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\LaunchOptionPage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

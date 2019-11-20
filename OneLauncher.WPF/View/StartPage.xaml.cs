@@ -22,6 +22,7 @@ using System.Net.Http;
 using KMCCC.Launcher;
 using GoodTimeStudio.OneMinecraftLauncher.Core.Models;
 using System.Collections.ObjectModel;
+using GoodTimeStudio.OneMinecraftLauncher.WPF.Models;
 
 namespace GoodTimeStudio.OneMinecraftLauncher.WPF.View
 {
@@ -39,13 +40,11 @@ namespace GoodTimeStudio.OneMinecraftLauncher.WPF.View
         {
             InitializeComponent();
             Loaded += StartPage_Loaded;
-            ViewModel.LaunchButtonContent = "启动";
 
             ViewModel.AccountTypesList = new ObservableCollection<AccountType>();
             AccountTypes.AllAccountTypes.ForEach(a => { ViewModel.AccountTypesList.Add(a); });
 
             //Init dialogs
-            _ProfileDialog = new ProfileSeletorDialog(ViewModel);
             _UserDialog = new UserDialog(ViewModel);
         }
 
@@ -114,11 +113,6 @@ namespace GoodTimeStudio.OneMinecraftLauncher.WPF.View
             dialog.StartDownload();
             await dialog.WaitUntilUnloadedAsync();
             return dialog.Cancelled;
-        }
-
-        private async void Tile_Profile_Click(object sender, RoutedEventArgs e)
-        {
-            await MainWindow.Current.ShowMetroDialogAsync(_ProfileDialog, DefaultDialogSettings);
         }
 
         private void Tile_Download_Click(object sender, RoutedEventArgs e)
@@ -280,5 +274,9 @@ namespace GoodTimeStudio.OneMinecraftLauncher.WPF.View
             return result.hasValidIndex;
         }
 
+        private void Button_AddOption_Click(object sender, RoutedEventArgs e)
+        {
+            ViewModel.LaunchOptionsList.Add(new LaunchOption("未命名的配置"));
+        }
     }
 }

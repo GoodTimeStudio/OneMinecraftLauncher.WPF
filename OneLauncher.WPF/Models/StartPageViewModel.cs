@@ -19,6 +19,20 @@ namespace GoodTimeStudio.OneMinecraftLauncher.WPF.Models
             set => SetProperty(ref _VersionsList, value);
         }
 
+        private ObservableCollection<LaunchOption> _LaunchOptionsList;
+        public ObservableCollection<LaunchOption> LaunchOptionsList
+        {
+            get => _LaunchOptionsList;
+            set => SetProperty(ref _LaunchOptionsList, value);
+        }
+
+        private LaunchOption _SelectedLaunchOption;
+        public LaunchOption SelectedLaunchOption
+        {
+            get => _SelectedLaunchOption;
+            set => SetProperty(ref _SelectedLaunchOption, value);
+        }
+
         private KMCCC.Launcher.Version _SelectedVersion;
         public KMCCC.Launcher.Version SelectedVersion
         {

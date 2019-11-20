@@ -32,66 +32,106 @@
     </UserControl.Resources>
 
     <Grid Background="{fw:AcrylicBrush TintOpacity=0.5}">
-        <Grid.RowDefinitions>
-            <RowDefinition Height="120" />
-            <RowDefinition />
-        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="250" />
+            <ColumnDefinition ></ColumnDefinition>
+        </Grid.ColumnDefinitions>
 
         <Grid>
-            <TextBlock Text="开始" FontSize="45" VerticalAlignment="Center" HorizontalAlignment="Left" Margin="30,0,0,0" />
-
-            <Button HorizontalAlignment="Right" VerticalAlignment="Center"  
-                     IsEnabled="{Binding UserDialogNotWorking, Mode=OneWay}"
-                     Margin="0,0,30,0" BorderThickness="2,2,0,2"
-                     Click="Button_UserDialog_Click" Padding="0"
-                     Style="{StaticResource _UserButtonStyle}"
-                     BorderBrush="DarkGray">
-
-                <Grid Height="40" Width="250" Background="Transparent">
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition />
-                        <ColumnDefinition Width="40" />
-                    </Grid.ColumnDefinitions>
-                    <TextBlock Text="{Binding PlayerName, Mode=OneWay}" VerticalAlignment="Center" 
-                               HorizontalAlignment="Center" FontSize="20"/>
-                    <Grid Grid.Column="1" Background="DarkGray">
-                        <TextBlock FontFamily="Segoe MDL2 Assets" FontSize="30" Foreground="White"
-                               HorizontalAlignment="Center" VerticalAlignment="Center">&#xE77B;</TextBlock>
-                    </Grid>
-                </Grid>
-            </Button>
-            <Controls:MetroProgressBar HorizontalAlignment="Right"  IsIndeterminate="{Binding UserDialogWorking, Mode=OneWay}"
-                       Margin="0,87,30,23" Width="250" />
-
-        </Grid>
-
-        <Grid Grid.Row="1">
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="20" />
-                <ColumnDefinition Width="150" />
-                <ColumnDefinition Width="150" />
-                <ColumnDefinition Width="40" />
-                <ColumnDefinition Width="150" />
-                <ColumnDefinition Width="150" />
-                <ColumnDefinition Width="40" />
-            </Grid.ColumnDefinitions>
             <Grid.RowDefinitions>
-                <RowDefinition Height="150" />
-                <RowDefinition Height="150" />
+                <RowDefinition />
+                <RowDefinition Height="40" />
             </Grid.RowDefinitions>
+            <ListView Background="Transparent"
+                  SelectionMode="Single"
+                  ItemsSource="{Binding LaunchOptionsList}"
+                  SelectedItem="{Binding SelectedLaunchOption, Mode=TwoWay}">
+                <ListView.ItemTemplate>
+                    <DataTemplate DataType="model:LaunchOption">
+                        <Grid>
+                            <Image HorizontalAlignment="Stretch"
+                               VerticalAlignment="Stretch"
+                               Source="{Binding IconImage}" />
+                            <StackPanel>
+                                <TextBlock Text="{Binding name}" FontSize="24" />
+                                <TextBlock Text="{Binding versionId}" />
+                                <TextBlock Text="{Binding Description}" TextWrapping="Wrap"/>
+                            </StackPanel>
+                        </Grid>
+                    </DataTemplate>
+                </ListView.ItemTemplate>
+            </ListView>
 
-            <Controls:Tile Grid.Column="1" Grid.ColumnSpan="2" Content="{Binding SelectedVersion.Id, Mode=OneWay}"
-                           Title="版本" Width="Auto" Click="Tile_Profile_Click" FontSize="30" />
-            <Controls:Tile Grid.Column="1" Grid.Row="1" Grid.ColumnSpan="2" FontSize="30"
-                           Title="启动" Width="Auto" Content="{Binding LaunchButtonContent, Mode=OneWay}" Click="Tile_Launch_Click"/>
+            <Grid Grid.Row="1">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition />
+                </Grid.ColumnDefinitions>
+                <Button Content="添加启动配置" Background="SkyBlue" Click="Button_AddOption_Click"/>
+            </Grid>
+        </Grid>
+        
+        <!--<Grid.RowDefinitions>
+            <RowDefinition Height="120" />
+            <RowDefinition />
+        </Grid.RowDefinitions>-->
 
-            <Controls:Tile Grid.Column="4" Title="下载" Click="Tile_Download_Click" >
-                <TextBlock FontSize="45" FontFamily="Segoe MDL2 Assets">&#xE896;</TextBlock>
-            </Controls:Tile>
-            <Controls:Tile Grid.Column="5" Title="设置" Click="Tile_Settings_Click" >
-                <TextBlock FontSize="45" FontFamily="Segoe MDL2 Assets">&#xE713;</TextBlock>
-            </Controls:Tile>
+        <Grid Grid.Column="1">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="120" />
+                <RowDefinition />
+            </Grid.RowDefinitions>
+            <Grid>
+                <TextBlock Text="开始" FontSize="45" VerticalAlignment="Center" HorizontalAlignment="Left" Margin="30,0,0,0" />
 
+                <Button HorizontalAlignment="Right" VerticalAlignment="Center"  
+                    IsEnabled="{Binding UserDialogNotWorking, Mode=OneWay}"
+                    Margin="0,0,30,0" BorderThickness="2,2,0,2"
+                    Click="Button_UserDialog_Click" Padding="0"
+                    Style="{StaticResource _UserButtonStyle}"
+                    BorderBrush="DarkGray">
+
+                    <Grid Height="40" Width="250" Background="Transparent">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition />
+                            <ColumnDefinition Width="40" />
+                        </Grid.ColumnDefinitions>
+                        <TextBlock Text="{Binding PlayerName, Mode=OneWay}" VerticalAlignment="Center" 
+                            HorizontalAlignment="Center" FontSize="20"/>
+                        <Grid Grid.Column="1" Background="DarkGray">
+                            <TextBlock FontFamily="Segoe MDL2 Assets" FontSize="30" Foreground="White"
+                            HorizontalAlignment="Center" VerticalAlignment="Center">&#xE77B;</TextBlock>
+                        </Grid>
+                    </Grid>
+                </Button>
+                <Controls:MetroProgressBar HorizontalAlignment="Right"  IsIndeterminate="{Binding UserDialogWorking, Mode=OneWay}"
+                    Margin="0,87,30,23" Width="250" />
+
+            </Grid>
+
+            <Grid Grid.Row="1">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="150" />
+                    <ColumnDefinition Width="150" />
+                    <ColumnDefinition />
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="150" />
+                    <RowDefinition Height="150" />
+                </Grid.RowDefinitions>
+
+                <Controls:Tile Grid.Column="0" Grid.Row="1" Grid.ColumnSpan="2" FontSize="30"
+                        Width="Auto" Content="启动游戏" Click="Tile_Launch_Click"/>
+
+                <Controls:Tile Grid.Column="1" Title="下载" Click="Tile_Download_Click" >
+                    <TextBlock FontSize="45" FontFamily="Segoe MDL2 Assets">&#xE896;</TextBlock>
+                </Controls:Tile>
+                <Controls:Tile Grid.Column="0" Grid.Row="0" Title="设置" Click="Tile_Settings_Click" >
+                    <TextBlock FontSize="45" FontFamily="Segoe MDL2 Assets">&#xE713;</TextBlock>
+                </Controls:Tile>
+
+                <ContentPresenter Grid.Column="2" Grid.RowSpan="2">
+                </ContentPresenter>
+            </Grid>
         </Grid>
     </Grid>
 </UserControl>

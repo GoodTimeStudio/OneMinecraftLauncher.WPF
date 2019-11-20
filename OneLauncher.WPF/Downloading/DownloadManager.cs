@@ -14,7 +14,7 @@ namespace GoodTimeStudio.OneMinecraftLauncher.WPF.Downloading
         /// <summary>
         /// Maximum of the downloading item in the same time
         /// </summary>
-        private static readonly int MaxDownloadingCount = 50;
+        private static readonly int MaxDownloadingCount = 10;
 
         private ObservableCollection<DownloadItem> _list;
         public IDownloadSource Source;
