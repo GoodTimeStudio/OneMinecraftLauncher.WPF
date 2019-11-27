@@ -129,8 +129,27 @@
                     <TextBlock FontSize="45" FontFamily="Segoe MDL2 Assets">&#xE713;</TextBlock>
                 </Controls:Tile>
 
-                <ContentPresenter Grid.Column="2" Grid.RowSpan="2">
-                </ContentPresenter>
+                <Controls:TransitioningContentControl Grid.Column="2" Grid.RowSpan="2"
+                                                      Content="{Binding SelectedLaunchOption, Mode=OneWay}">
+                    <ContentControl.ContentTemplate>
+                        <DataTemplate DataType="model:LaunchOption">
+                            <StackPanel  Margin="5">
+                                <TextBlock Text="当前整合包" FontSize="16" FontWeight="Bold" Margin="0,0,0,6"/>
+                                <TextBlock FontSize="16" Margin="0,0,0,24" Text="{Binding name}" />
+
+                                <TextBlock Text="Minecraft版本" FontSize="16" Margin="0,0,0,3"/>
+                                <ComboBox Width="300" Margin="0,0,0,6"
+                                          
+                                          SelectedItem="{Binding versionId, Mode=TwoWay}">
+                                </ComboBox>
+                                <TextBlock Text="游戏存档目录" FontSize="16" Margin="0,0,0,3"/>
+                                <TextBox Text="{Binding gameDir, Mode=TwoWay}" 
+                                            Width="400" Margin="0,0,0,24" />
+
+                            </StackPanel>
+                        </DataTemplate>
+                    </ContentControl.ContentTemplate>
+                </Controls:TransitioningContentControl>
             </Grid>
         </Grid>
     </Grid>

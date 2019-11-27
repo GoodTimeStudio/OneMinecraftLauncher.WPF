@@ -65,7 +65,7 @@ namespace GoodTimeStudio.OneMinecraftLauncher.WPF.View
             }
 
             PasswordBox.Password = string.Empty;
-            Config.SaveConfigToFileAsync();
+            Config.SaveConfigToFile();
             await MainWindow.Current.HideMetroDialogAsync(this);
         }
 
@@ -87,7 +87,7 @@ namespace GoodTimeStudio.OneMinecraftLauncher.WPF.View
                 Config.INSTANCE.Playername = string.Empty;
                 Config.INSTANCE.Password = string.Empty;
                 Config.INSTANCE.UUID = string.Empty;
-                Config.SaveConfigToFileAsync();
+                Config.SaveConfigToFile();
                 CoreManager.CoreMCL.UserAuthenticator = null;
 
                 ViewModel.SetupUserDialog(UserDialogState.Input);
@@ -131,7 +131,7 @@ namespace GoodTimeStudio.OneMinecraftLauncher.WPF.View
                     Config.INSTANCE.Password = info.AccessToken.ToString();
                 }
 
-                Config.SaveConfigToFileAsync();
+                Config.SaveConfigToFile();
                 await MainWindow.Current.HideMetroDialogAsync(this);
             }
             else

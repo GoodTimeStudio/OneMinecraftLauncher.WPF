@@ -1,4 +1,5 @@
 ﻿using GoodTimeStudio.OneMinecraftLauncher.Core.Models;
+using GoodTimeStudio.OneMinecraftLauncher.WPF.Models;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
@@ -30,8 +31,9 @@ namespace GoodTimeStudio.OneMinecraftLauncher
         public string JavaExt;
         public string JavaArgs;
         public int MaxMemory;
-        public string SelectedVersion;
+        public string SelectedLaunchOption;
         public string DownloadSourceId;
+        public List<LaunchOption> LaunchOptions;
 
         public static void LoadFromFile()
         {
@@ -87,14 +89,6 @@ namespace GoodTimeStudio.OneMinecraftLauncher
             {
                 File.WriteAllText(CONFIG_FILE, JsonConvert.SerializeObject(INSTANCE, serializerSettings));
             }
-        }
-
-        public static async void SaveConfigToFileAsync()
-        {
-            await Task.Run(() =>
-            {
-                SaveConfigToFile();
-            });
         }
 
         public static Config GenerateDefaultConfig()

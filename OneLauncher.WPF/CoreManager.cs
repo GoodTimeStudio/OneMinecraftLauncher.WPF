@@ -18,9 +18,7 @@ namespace GoodTimeStudio.OneMinecraftLauncher.WPF
     public class CoreManager
     {
         public static OneMCL CoreMCL;
-        public static LaunchOptionBase Option;
 
-        public static ObservableCollection<KMCCC.Launcher.Version> VersionsList;
         public static List<IDownloadSource> DownloadSourcesList;
         public static IDownloadSource DownloadSource;
 
@@ -32,11 +30,9 @@ namespace GoodTimeStudio.OneMinecraftLauncher.WPF
         public static void Initialize()
         {
             CoreMCL = new OneMCL(@".\.minecraft");
-            Option = new LaunchOptionBase("one-minecraft-launcher");
 
             Config.LoadFromFile();
-            VersionsList = new ObservableCollection<KMCCC.Launcher.Version>();
-            RefreshVersionsList(CoreMCL.Core.GetVersions());
+            MinecraftVersionManager.Init();
 
             AccountTypes.Mojang.Text = "Mojang账号（正版登陆）";
             AccountTypes.Offline.Text = "离线模式";
@@ -52,15 +48,6 @@ namespace GoodTimeStudio.OneMinecraftLauncher.WPF
                 {
                     DownloadSource = source;
                 }
-            }
-        }
-
-        public static void RefreshVersionsList(IEnumerable<KMCCC.Launcher.Version> versions)
-        {
-            VersionsList.Clear();
-            foreach (KMCCC.Launcher.Version kver in versions)
-            {
-                VersionsList.Add(kver);
             }
         }
 

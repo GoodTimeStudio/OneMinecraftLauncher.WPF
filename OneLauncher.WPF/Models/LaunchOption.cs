@@ -1,4 +1,5 @@
 ﻿using GoodTimeStudio.OneMinecraftLauncher.Core.Models;
+using GoodTimeStudio.OneMinecraftLauncher.Core.Models.Minecraft;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
@@ -23,6 +24,13 @@ namespace GoodTimeStudio.OneMinecraftLauncher.WPF.Models
             }
         }
 
+        private int _MaxJvmMemory;
+        public int MaxJvmMemory
+        {
+            get => _MaxJvmMemory;
+            set => this.SetProperty(ref _MaxJvmMemory, value);
+        }
+
         public bool IsNotReady
         {
             get => !IsReady;
@@ -44,6 +52,27 @@ namespace GoodTimeStudio.OneMinecraftLauncher.WPF.Models
 
         public LaunchOption(string name) : base(name)
         {
+        }
+    }
+
+    public class VersionLockOption : LaunchOption
+    {
+        public string _versionId;
+        public new string versionId { get => _versionId; }
+
+        public VersionLockOption(string name) : base(name) { }
+
+        public VersionLockOption(string name, string versionId) : base(name)
+        {
+            _versionId = versionId;
+        }
+    }
+
+    public class LatestMinecraftOption : VersionLockOption
+    {
+        public LatestMinecraftOption() : base("最新版本")
+        {
+
         }
     }
 }

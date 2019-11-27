@@ -33,17 +33,6 @@ namespace GoodTimeStudio.OneMinecraftLauncher.WPF.Models
             set => SetProperty(ref _SelectedLaunchOption, value);
         }
 
-        private KMCCC.Launcher.Version _SelectedVersion;
-        public KMCCC.Launcher.Version SelectedVersion
-        {
-            get => _SelectedVersion;
-            set
-            {
-                SetProperty(ref _SelectedVersion, value);
-                Config.INSTANCE.SelectedVersion = value.Id;
-            }
-        }
-
         private ObservableCollection<AccountType> _AccountTypesList;
         public ObservableCollection<AccountType> AccountTypesList
         {
