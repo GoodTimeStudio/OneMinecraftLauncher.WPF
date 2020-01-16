@@ -15,6 +15,7 @@ namespace GoodTimeStudio.OneMinecraftLauncher.WPF
     {
         public App()
         {
+            SourceChord.FluentWPF.ResourceDictionaryEx.GlobalTheme = SourceChord.FluentWPF.ElementTheme.Light;
             CoreManager.Initialize();
         }
     }
