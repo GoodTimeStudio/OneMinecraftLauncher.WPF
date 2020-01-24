@@ -7,6 +7,7 @@
       xmlns:Controls="clr-namespace:MahApps.Metro.Controls;assembly=MahApps.Metro"
       xmlns:fw="clr-namespace:SourceChord.FluentWPF;assembly=FluentWPF"
       xmlns:model="clr-namespace:GoodTimeStudio.OneMinecraftLauncher.WPF.Models"
+      xmlns:root="clr-namespace:GoodTimeStudio.OneMinecraftLauncher.WPF"
       mc:Ignorable="d" 
       d:DesignHeight="450" d:DesignWidth="800" >
     <UserControl.DataContext>
@@ -31,126 +32,129 @@
         </Style>
     </UserControl.Resources>
 
-    <Grid Background="{fw:AcrylicBrush TintOpacity=0.5}">
-        <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="250" />
-            <ColumnDefinition ></ColumnDefinition>
-        </Grid.ColumnDefinitions>
+    <Border BorderBrush="Black" BorderThickness="0,1,0,0">
+        <Grid Background="{fw:AcrylicBrush TintOpacity=0.5}">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="250" />
+                <ColumnDefinition ></ColumnDefinition>
+            </Grid.ColumnDefinitions>
 
-        <Grid>
-            <Grid.RowDefinitions>
-                <RowDefinition />
-                <RowDefinition Height="40" />
-            </Grid.RowDefinitions>
-            <ListView Background="Transparent"
+            <Border BorderThickness="0,0,1,0" BorderBrush="Black">
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition />
+                        <RowDefinition Height="40" />
+                    </Grid.RowDefinitions>
+                    <ListView Background="Transparent"
                   SelectionMode="Single"
                   ItemsSource="{Binding LaunchOptionsList}"
-                  SelectedItem="{Binding SelectedLaunchOption, Mode=TwoWay}">
-                <ListView.ItemTemplate>
-                    <DataTemplate DataType="model:LaunchOption">
-                        <Grid>
-                            <Image HorizontalAlignment="Stretch"
+                  SelectedItem="{Binding SelectedLaunchOption, Mode=TwoWay}"
+                  BorderThickness="0">
+                        <ListView.ItemTemplate>
+                            <DataTemplate DataType="model:LaunchOption">
+                                <Grid>
+                                    <Image HorizontalAlignment="Stretch"
                                VerticalAlignment="Stretch"
                                Source="{Binding IconImage}" />
-                            <StackPanel>
-                                <TextBlock Text="{Binding name}" FontSize="24" />
-                                <TextBlock Text="{Binding versionId}" />
-                                <TextBlock Text="{Binding Description}" TextWrapping="Wrap"/>
-                            </StackPanel>
-                        </Grid>
-                    </DataTemplate>
-                </ListView.ItemTemplate>
-            </ListView>
+                                    <StackPanel>
+                                        <TextBlock Text="{Binding name}" FontSize="24" />
+                                        <TextBlock Text="{Binding versionId}" />
+                                        <TextBlock Text="{Binding Description}" TextWrapping="Wrap"/>
+                                    </StackPanel>
+                                </Grid>
+                            </DataTemplate>
+                        </ListView.ItemTemplate>
+                    </ListView>
 
-            <Grid Grid.Row="1">
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition />
-                </Grid.ColumnDefinitions>
-                <Button Content="添加启动配置" Background="SkyBlue" Click="Button_AddOption_Click"/>
-            </Grid>
-        </Grid>
-        
-        <!--<Grid.RowDefinitions>
+                    <Grid Grid.Row="1">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition />
+                        </Grid.ColumnDefinitions>
+                        <Button Content="添加整合包" Background="SkyBlue" Click="Button_AddOption_Click"/>
+                    </Grid>
+                </Grid>
+            </Border>
+
+
+            <!--<Grid.RowDefinitions>
             <RowDefinition Height="120" />
             <RowDefinition />
         </Grid.RowDefinitions>-->
 
-        <Grid Grid.Column="1">
-            <Grid.RowDefinitions>
-                <RowDefinition Height="120" />
-                <RowDefinition />
-            </Grid.RowDefinitions>
-            <Grid>
-                <TextBlock Text="开始" FontSize="45" VerticalAlignment="Center" HorizontalAlignment="Left" Margin="30,0,0,0" />
+            <Grid Grid.Column="1">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="120" />
+                    <RowDefinition />
+                </Grid.RowDefinitions>
+                <Grid>
+                    <TextBlock Text="开始" FontSize="45" VerticalAlignment="Center" HorizontalAlignment="Left" Margin="30,0,0,0" />
 
-                <Button HorizontalAlignment="Right" VerticalAlignment="Center"  
+                    <Button HorizontalAlignment="Right" VerticalAlignment="Center"  
                     IsEnabled="{Binding UserDialogNotWorking, Mode=OneWay}"
                     Margin="0,0,30,0" BorderThickness="2,2,0,2"
                     Click="Button_UserDialog_Click" Padding="0"
                     Style="{StaticResource _UserButtonStyle}"
                     BorderBrush="DarkGray">
 
-                    <Grid Height="40" Width="250" Background="Transparent">
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition />
-                            <ColumnDefinition Width="40" />
-                        </Grid.ColumnDefinitions>
-                        <TextBlock Text="{Binding PlayerName, Mode=OneWay}" VerticalAlignment="Center" 
+                        <Grid Height="40" Width="250" Background="Transparent">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition />
+                                <ColumnDefinition Width="40" />
+                            </Grid.ColumnDefinitions>
+                            <TextBlock Text="{Binding PlayerName, Mode=OneWay}" VerticalAlignment="Center" 
                             HorizontalAlignment="Center" FontSize="20"/>
-                        <Grid Grid.Column="1" Background="DarkGray">
-                            <TextBlock FontFamily="Segoe MDL2 Assets" FontSize="30" Foreground="White"
+                            <Grid Grid.Column="1" Background="DarkGray">
+                                <TextBlock FontFamily="Segoe MDL2 Assets" FontSize="30" Foreground="White"
                             HorizontalAlignment="Center" VerticalAlignment="Center">&#xE77B;</TextBlock>
+                            </Grid>
                         </Grid>
-                    </Grid>
-                </Button>
-                <Controls:MetroProgressBar HorizontalAlignment="Right"  IsIndeterminate="{Binding UserDialogWorking, Mode=OneWay}"
+                    </Button>
+                    <Controls:MetroProgressBar HorizontalAlignment="Right"  IsIndeterminate="{Binding UserDialogWorking, Mode=OneWay}"
                     Margin="0,87,30,23" Width="250" />
 
-            </Grid>
+                </Grid>
 
-            <Grid Grid.Row="1">
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="150" />
-                    <ColumnDefinition Width="150" />
-                    <ColumnDefinition />
-                </Grid.ColumnDefinitions>
-                <Grid.RowDefinitions>
-                    <RowDefinition Height="150" />
-                    <RowDefinition Height="150" />
-                </Grid.RowDefinitions>
+                <Grid Grid.Row="1">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition />
+                        <ColumnDefinition Width="150" />
+                        <ColumnDefinition Width="150" />
+                    </Grid.ColumnDefinitions>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="150" />
+                        <RowDefinition Height="150" />
+                    </Grid.RowDefinitions>
 
-                <Controls:Tile Grid.Column="0" Grid.Row="1" Grid.ColumnSpan="2" FontSize="30"
+                    <Controls:Tile Grid.Column="1" Grid.Row="1" Grid.ColumnSpan="2" FontSize="30"
                         Width="Auto" Content="启动游戏" Click="Tile_Launch_Click"/>
 
-                <Controls:Tile Grid.Column="1" Title="下载" Click="Tile_Download_Click" >
-                    <TextBlock FontSize="45" FontFamily="Segoe MDL2 Assets">&#xE896;</TextBlock>
-                </Controls:Tile>
-                <Controls:Tile Grid.Column="0" Grid.Row="0" Title="设置" Click="Tile_Settings_Click" >
-                    <TextBlock FontSize="45" FontFamily="Segoe MDL2 Assets">&#xE713;</TextBlock>
-                </Controls:Tile>
+                    <Controls:Tile Grid.Column="2" Title="下载" Click="Tile_Download_Click" >
+                        <TextBlock FontSize="45" FontFamily="Segoe MDL2 Assets">&#xE896;</TextBlock>
+                    </Controls:Tile>
+                    <Controls:Tile Grid.Column="1" Grid.Row="0" Title="设置" Click="Tile_Settings_Click" >
+                        <TextBlock FontSize="45" FontFamily="Segoe MDL2 Assets">&#xE713;</TextBlock>
+                    </Controls:Tile>
 
-                <Controls:TransitioningContentControl Grid.Column="2" Grid.RowSpan="2"
+                    <Controls:TransitioningContentControl Grid.Column="0" Grid.RowSpan="2"
                                                       Content="{Binding SelectedLaunchOption, Mode=OneWay}">
-                    <ContentControl.ContentTemplate>
-                        <DataTemplate DataType="model:LaunchOption">
-                            <StackPanel  Margin="5">
-                                <TextBlock Text="当前整合包" FontSize="16" FontWeight="Bold" Margin="0,0,0,6"/>
-                                <TextBlock FontSize="16" Margin="0,0,0,24" Text="{Binding name}" />
+                        <ContentControl.ContentTemplate>
+                            <DataTemplate DataType="model:LaunchOption">
+                                <StackPanel  Margin="5">
+                                    <TextBlock Text="当前整合包" FontSize="16" FontWeight="Bold" Margin="0,0,0,6"/>
+                                    <TextBox FontSize="16" Margin="0,0,0,24" Text="{Binding name}" TextChanged="OptName_TextBox_TextChanged"/>
 
-                                <TextBlock Text="Minecraft版本" FontSize="16" Margin="0,0,0,3"/>
-                                <ComboBox Width="300" Margin="0,0,0,6"
-                                          
-                                          SelectedItem="{Binding versionId, Mode=TwoWay}">
-                                </ComboBox>
-                                <TextBlock Text="游戏存档目录" FontSize="16" Margin="0,0,0,3"/>
-                                <TextBox Text="{Binding gameDir, Mode=TwoWay}" 
-                                            Width="400" Margin="0,0,0,24" />
-
-                            </StackPanel>
-                        </DataTemplate>
-                    </ContentControl.ContentTemplate>
-                </Controls:TransitioningContentControl>
+                                    <TextBlock Text="Minecraft版本" FontSize="16" Margin="0,0,0,3"/>
+                                    <Grid>
+                                        <ComboBox Margin="0,0,0,6" ItemsSource="{x:Static root:MinecraftVersionManager.VersionIdList}"
+                                          SelectedItem="{Binding versionId, Mode=TwoWay}" SelectionChanged="Version_ComboBox_SelectionChanged">
+                                        </ComboBox>
+                                    </Grid>
+                                </StackPanel>
+                            </DataTemplate>
+                        </ContentControl.ContentTemplate>
+                    </Controls:TransitioningContentControl>
+                </Grid>
             </Grid>
         </Grid>
-    </Grid>
+    </Border>
 </UserControl>

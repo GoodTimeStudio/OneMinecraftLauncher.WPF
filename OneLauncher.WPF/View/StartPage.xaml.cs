@@ -23,6 +23,7 @@ using KMCCC.Launcher;
 using GoodTimeStudio.OneMinecraftLauncher.Core.Models;
 using System.Collections.ObjectModel;
 using GoodTimeStudio.OneMinecraftLauncher.WPF.Models;
+using System.Timers;
 
 namespace GoodTimeStudio.OneMinecraftLauncher.WPF.View
 {
@@ -34,6 +35,7 @@ namespace GoodTimeStudio.OneMinecraftLauncher.WPF.View
         private bool isWorking;
 
         private UserDialog _UserDialog;
+        private Timer AutoSaveTimer;
 
         public StartPage()
         {
@@ -42,18 +44,24 @@ namespace GoodTimeStudio.OneMinecraftLauncher.WPF.View
 
             ViewModel.AccountTypesList = new ObservableCollection<AccountType>();
             AccountTypes.AllAccountTypes.ForEach(a => { ViewModel.AccountTypesList.Add(a); });
-            ViewModel.LaunchOptionsList = new ObservableCollection<LaunchOption>();
+            ViewModel.LaunchOptionsList = Config.INSTANCE.LaunchOptions;
+            AutoSaveTimer = new Timer(20000); //10 sec
+            AutoSaveTimer.AutoReset = false;
+            AutoSaveTimer.Elapsed += AutoSaveTimer_Elapsed;
 
             //Init dialogs
             _UserDialog = new UserDialog(ViewModel);
+        }
+
+        private void AutoSaveTimer_Elapsed(object sender, ElapsedEventArgs e)
+        {
+            Config.SaveConfigToFile();
         }
 
         private async void StartPage_Loaded(object sender, RoutedEventArgs e)
         {
             if (Config.INSTANCE != null) // determine launcher have inited
             {
-                ViewModel.VersionsList = VersionsList;
-
                 if (!string.IsNullOrEmpty(Config.INSTANCE.AccountType))
                 {
                     ViewModel.SelectedAccountType = AccountTypes.GetAccountTypeFromTag(Config.INSTANCE.AccountType);
@@ -94,9 +102,15 @@ namespace GoodTimeStudio.OneMinecraftLauncher.WPF.View
                     }
                 }
 
-                if (Config.INSTANCE.LaunchOptions != null)
+                if (ViewModel.LaunchOptionsList != null)
                 {
-                    Config.INSTANCE.LaunchOptions.ForEach(o => { ViewModel.LaunchOptionsList.Add(o); });
+                    foreach (LaunchOption opt in ViewModel.LaunchOptionsList)
+                    {
+                        if (!MinecraftVersionManager.VersionIdList.Contains(opt.versionId))
+                        {
+                            MinecraftVersionManager.VersionIdList.Add(opt.versionId);
+                        }
+                    }
                 }
             }
         }
@@ -131,8 +145,10 @@ namespace GoodTimeStudio.OneMinecraftLauncher.WPF.View
             {
                 return;
             }
+            MainWindow.Current.ShowLaunchingFlyout();
             isWorking = true;
             //await launch();
+            KMCCC.Launcher.Version v;
             ViewModel.LaunchButtonContent = "启动";
             isWorking = false;
         }
@@ -271,6 +287,18 @@ namespace GoodTimeStudio.OneMinecraftLauncher.WPF.View
         private void Button_AddOption_Click(object sender, RoutedEventArgs e)
         {
             ViewModel.LaunchOptionsList.Add(new LaunchOption("未命名的配置"));
+        }
+
+        private void OptName_TextBox_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            AutoSaveTimer.Stop();
+            AutoSaveTimer.Start();
+        }
+
+        private void Version_ComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            AutoSaveTimer.Stop();
+            AutoSaveTimer.Start();
         }
     }
 }

@@ -12,13 +12,6 @@ namespace GoodTimeStudio.OneMinecraftLauncher.WPF.Models
 {
     public class StartPageViewModel : BindableBase
     {
-        private ObservableCollection<KMCCC.Launcher.Version> _VersionsList;
-        public ObservableCollection<KMCCC.Launcher.Version> VersionsList
-        {
-            get => _VersionsList;
-            set => SetProperty(ref _VersionsList, value);
-        }
-
         private ObservableCollection<LaunchOption> _LaunchOptionsList;
         public ObservableCollection<LaunchOption> LaunchOptionsList
         {

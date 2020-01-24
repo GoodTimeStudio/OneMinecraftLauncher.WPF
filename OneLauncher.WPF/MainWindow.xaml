@@ -36,6 +36,17 @@
     <Window.DataContext>
         <local:MainWindowViewModel x:Name="ViewModel" />
     </Window.DataContext>
+    <Controls:MetroWindow.Flyouts>
+        <Controls:FlyoutsControl >
+            <Controls:Flyout Position="Bottom" 
+                             Header="正在准备启动 Minecraft" 
+                             x:Name="LaunchingFlyout" 
+                             IsModal="True" CloseButtonVisibility="Collapsed"
+                             Height="200">
+                
+            </Controls:Flyout>
+        </Controls:FlyoutsControl>
+    </Controls:MetroWindow.Flyouts>
 
     <Grid>
         <Grid.RowDefinitions>

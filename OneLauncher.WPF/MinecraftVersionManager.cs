@@ -14,50 +14,77 @@ namespace GoodTimeStudio.OneMinecraftLauncher.WPF
     {
         public static readonly string VersionManifestUrl = "https://launchermeta.mojang.com/mc/game/version_manifest.json";
 
-        public static MinecraftVersionsList AllVersionsList;
-        private static List<KMCCC.Launcher.Version> LocalVersionsList;
+        public static MinecraftVersionsList AllVersionsList; 
+        public static List<KMCCC.Launcher.Version> LocalVersionsList;
+        public static List<string> VersionIdList; //including local and online version
 
-        public static void Init()
+        public async static Task Init()
         {
             LocalVersionsList = new List<KMCCC.Launcher.Version>();
             LocalVersionsList.AddRange(CoreManager.CoreMCL.Core.GetVersions());
-            RefreshMinecraftVersions();                   
+            VersionIdList = new List<string>();
+            LocalVersionsList.ForEach(v =>
+            {
+                VersionIdList.Add(v.Id);
+            });
+            await RefreshMinecraftVersions();                   
         }
 
         #region local version
-        public static MinecraftVersion GetLatestRelease()
+        public static string GetLatestReleaseId()
         {
-            MinecraftVersion latest = null;
-
             if (AllVersionsList != null)
             {
-                latest = AllVersionsList.versions.Find(v => v.id == AllVersionsList.latest.release);
+                MinecraftVersion latest = AllVersionsList.versions.Find(v => v.id == AllVersionsList.latest.release);
                 if (latest != null)
                 {
-                    return latest;
+                    return latest.id;
                 }
             }
 
-            foreach (MinecraftVersion v in LocalVersionsList.Where(t => t.type == "release"))
+            KMCCC.Launcher.Version latestKVer = null;
+            foreach (KMCCC.Launcher.Version v in LocalVersionsList.Where(t => t.Type == "release"))
             {
-                if (latest == null)
+                if (latestKVer == null)
                 {
-                    latest = v;
+                    latestKVer = v;
                     continue;
                 }
 
-                if (v.time > latest.time)
+                if (v.Time > latestKVer.Time)
                 {
-                    latest = v;
+                    latestKVer = v;
                 }
             }
 
-            return latest;
+            if (latestKVer == null)
+            {
+                foreach (KMCCC.Launcher.Version v in LocalVersionsList)
+                {
+                    if (latestKVer == null)
+                    {
+                        latestKVer = v;
+                        continue;
+                    }
+
+                    if (v.Time > latestKVer.Time)
+                    {
+                        latestKVer = v;
+                    }
+                }
+            }
+
+            if (latestKVer == null)
+            {
+                return "1.15.1";
+            }
+
+            return latestKVer.Id;
         }
 
         #endregion
 
-        public async static void RefreshMinecraftVersions()
+        public async static Task RefreshMinecraftVersions()
         {
             string json = await GetMinecraftVersionManifestAsync();
 

@@ -6,6 +6,7 @@ using MahApps.Metro;
 using MahApps.Metro.Controls;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -112,5 +113,15 @@ namespace GoodTimeStudio.OneMinecraftLauncher.WPF
             BackButtonVisable = true;
         }
 
+        public void ShowLaunchingFlyout()
+        {
+            LaunchingFlyout.IsOpen = true;
+        }
+
+        protected override void OnClosing(CancelEventArgs e)
+        {
+            base.OnClosing(e);
+            Config.SaveConfigToFile();
+        }
     }
 }

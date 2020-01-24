@@ -31,8 +31,8 @@ namespace GoodTimeStudio.OneMinecraftLauncher.WPF
         {
             CoreMCL = new OneMCL(@".\.minecraft");
 
+            MinecraftVersionManager.Init().Wait();
             Config.LoadFromFile();
-            MinecraftVersionManager.Init();
 
             AccountTypes.Mojang.Text = "Mojang账号（正版登陆）";
             AccountTypes.Offline.Text = "离线模式";

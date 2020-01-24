@@ -54,11 +54,11 @@
       <HintPath>..\packages\Costura.Fody.4.0.0\lib\net40\Costura.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="FluentWPF, Version=0.3.2.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\FluentWPF.0.3.2\lib\net45\FluentWPF.dll</HintPath>
+    <Reference Include="FluentWPF, Version=0.8.0.6, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\FluentWPF.0.8.0\lib\net45\FluentWPF.dll</HintPath>
     </Reference>
     <Reference Include="KMCCC, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\OneMinecraftLauncher.Core.1.1.0\lib\netstandard2.0\KMCCC.dll</HintPath>
+      <HintPath>..\packages\OneMinecraftLauncher.Core.1.1.3\lib\netstandard2.0\KMCCC.dll</HintPath>
     </Reference>
     <Reference Include="MahApps.Metro, Version=1.6.5.1, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\MahApps.Metro.1.6.5\lib\net46\MahApps.Metro.dll</HintPath>
@@ -98,8 +98,8 @@
     <Reference Include="Newtonsoft.Json, Version=12.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
       <HintPath>..\packages\Newtonsoft.Json.12.0.2\lib\net45\Newtonsoft.Json.dll</HintPath>
     </Reference>
-    <Reference Include="OneMinecraftLauncher.Core, Version=1.1.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\OneMinecraftLauncher.Core.1.1.0\lib\netstandard2.0\OneMinecraftLauncher.Core.dll</HintPath>
+    <Reference Include="OneMinecraftLauncher.Core, Version=1.1.3.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\OneMinecraftLauncher.Core.1.1.3\lib\netstandard2.0\OneMinecraftLauncher.Core.dll</HintPath>
     </Reference>
     <Reference Include="PresentationFramework.Aero2" />
     <Reference Include="System" />

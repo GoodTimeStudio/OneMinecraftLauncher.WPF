@@ -1,6 +1,7 @@
 ﻿using GoodTimeStudio.OneMinecraftLauncher.Core.Models;
 using GoodTimeStudio.OneMinecraftLauncher.Core.Models.Minecraft;
 using Newtonsoft.Json;
+using Newtonsoft.Json.Serialization;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -31,6 +32,7 @@ namespace GoodTimeStudio.OneMinecraftLauncher.WPF.Models
             set => this.SetProperty(ref _MaxJvmMemory, value);
         }
 
+        [JsonIgnore]
         public bool IsNotReady
         {
             get => !IsReady;
@@ -57,22 +59,45 @@ namespace GoodTimeStudio.OneMinecraftLauncher.WPF.Models
 
     public class VersionLockOption : LaunchOption
     {
-        public string _versionId;
-        public new string versionId { get => _versionId; }
+        public new readonly string versionId;
 
         public VersionLockOption(string name) : base(name) { }
 
         public VersionLockOption(string name, string versionId) : base(name)
         {
-            _versionId = versionId;
+            this.versionId = versionId;
         }
     }
 
-    public class LatestMinecraftOption : VersionLockOption
+    public class LaunchOptionTypesBinder : ISerializationBinder
     {
-        public LatestMinecraftOption() : base("最新版本")
+        public void BindToName(Type serializedType, out string assemblyName, out string typeName)
         {
+            assemblyName = string.Empty;
+            if (serializedType == typeof(LaunchOption))
+            {
+                typeName = "custom";
+            }
+            else if (serializedType == typeof(VersionLockOption))
+            {
+                typeName = "version_lock";
+            }
+            else
+            {
+                typeName = string.Empty;
+            }
+        }
 
+        public Type BindToType(string assemblyName, string typeName)
+
+        {
+            switch (typeName)
+            {
+                case "version_lock":
+                    return typeof(VersionLockOption);
+                default:
+                    return typeof(LaunchOption);
+            }
         }
     }
 }

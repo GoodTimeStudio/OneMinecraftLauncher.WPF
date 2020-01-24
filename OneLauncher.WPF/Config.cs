@@ -1,8 +1,10 @@
 ﻿using GoodTimeStudio.OneMinecraftLauncher.Core.Models;
+using GoodTimeStudio.OneMinecraftLauncher.WPF;
 using GoodTimeStudio.OneMinecraftLauncher.WPF.Models;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.IO;
 using System.Linq;
 using System.Text;
@@ -33,7 +35,7 @@ namespace GoodTimeStudio.OneMinecraftLauncher
         public int MaxMemory;
         public string SelectedLaunchOption;
         public string DownloadSourceId;
-        public List<LaunchOption> LaunchOptions;
+        public ObservableCollection<LaunchOption> LaunchOptions;
 
         public static void LoadFromFile()
         {
@@ -94,12 +96,22 @@ namespace GoodTimeStudio.OneMinecraftLauncher
         public static Config GenerateDefaultConfig()
         {
             string player = "Steve";
-            return new Config
+            Config ret = new Config
             {
                 User = player,
                 Playername = player,
-                AccountType = AccountTypes.Offline.Tag
+                AccountType = AccountTypes.Offline.Tag,
             };
+            string latestVersionId = MinecraftVersionManager.GetLatestReleaseId();
+            LaunchOption defOpt = new LaunchOption(latestVersionId)
+            {
+                versionId = latestVersionId
+            };
+            ret.LaunchOptions = new ObservableCollection<LaunchOption>();
+            ret.LaunchOptions.Add(defOpt);
+
+            MinecraftVersionManager.VersionIdList.Add(latestVersionId);
+            return ret;
         }
     }
 }
