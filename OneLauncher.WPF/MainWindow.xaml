@@ -39,11 +39,11 @@
     <Controls:MetroWindow.Flyouts>
         <Controls:FlyoutsControl >
             <Controls:Flyout Position="Bottom" 
-                             Header="正在准备启动 Minecraft" 
                              x:Name="LaunchingFlyout" 
-                             IsModal="True" CloseButtonVisibility="Collapsed"
-                             Height="200">
-                
+                             IsModal="True" 
+                             CloseButtonVisibility="Collapsed"
+                             TitleVisibility="Collapsed">
+                <view:LaunchingFlyoutView x:Name="LaunchingFlyoutContent" />
             </Controls:Flyout>
         </Controls:FlyoutsControl>
     </Controls:MetroWindow.Flyouts>
