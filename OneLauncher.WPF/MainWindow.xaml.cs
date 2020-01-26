@@ -118,6 +118,11 @@ namespace GoodTimeStudio.OneMinecraftLauncher.WPF
             LaunchingFlyout.IsOpen = true;
         }
 
+        public void CloseLaunchingFlyout()
+        {
+            LaunchingFlyout.IsOpen = false;
+        }
+
         protected override void OnClosing(CancelEventArgs e)
         {
             base.OnClosing(e);

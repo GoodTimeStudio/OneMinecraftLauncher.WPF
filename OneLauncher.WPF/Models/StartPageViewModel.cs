@@ -1,4 +1,5 @@
 ﻿using GoodTimeStudio.OneMinecraftLauncher.Core.Models;
+using GoodTimeStudio.OneMinecraftLauncher.WPF.Downloading;
 using KMCCC.Authentication;
 using System;
 using System.Collections.Generic;
@@ -40,6 +41,27 @@ namespace GoodTimeStudio.OneMinecraftLauncher.WPF.Models
             set => SetProperty(ref _SelectedAccountType, value);
         }
 
+        private DownloadManager _manager;
+        public DownloadManager manager
+        {
+            get => _manager;
+            set => SetProperty(ref _manager, value);
+        }
+
+        private ObservableCollection<DownloadItem> _DownloadQuene;
+        public ObservableCollection<DownloadItem> DownloadQuene
+        {
+            get => _DownloadQuene;
+            set => SetProperty(ref _DownloadQuene, value);
+        }
+
+        private Visibility _DownloadListVisibility;
+        public Visibility DownloadListVisibility
+        {
+            get => _DownloadListVisibility;
+            set => SetProperty(ref _DownloadListVisibility, value);
+        }
+
         private string _User;
         /// <summary>
         /// Username or Email
@@ -55,6 +77,20 @@ namespace GoodTimeStudio.OneMinecraftLauncher.WPF.Models
         {
             get => _PlayerName;
             set => SetProperty(ref _PlayerName, value);
+        }
+
+        private string _ProgressDescriptionText;
+        public string ProgressDescriptionText
+        {
+            get => _ProgressDescriptionText;
+            set => SetProperty(ref _ProgressDescriptionText, value);
+        }
+
+        private int _LaunchingProgress;
+        public int LaunchingProgress
+        {
+            get => _LaunchingProgress;
+            set => SetProperty(ref _LaunchingProgress, value);
         }
 
         #region UserDialog
@@ -80,12 +116,18 @@ namespace GoodTimeStudio.OneMinecraftLauncher.WPF.Models
             {
                 SetProperty(ref _UserDialogWorking, value);
                 OnPropertyChanged(nameof(UserDialogNotWorking));
+                OnPropertyChanged(nameof(UserDialogProgressBarVisbility));
             }
         }
 
         public bool UserDialogNotWorking
         {
             get => !UserDialogWorking;
+        }
+
+        public Visibility UserDialogProgressBarVisbility
+        {
+            get => UserDialogWorking ? Visibility.Visible : Visibility.Collapsed;
         }
 
         private string _UserDialogResultString;
@@ -103,13 +145,6 @@ namespace GoodTimeStudio.OneMinecraftLauncher.WPF.Models
             {
                 SetProperty(ref _UserDialogNotLock, value);
             }
-        }
-
-        private string _LaunchButtonContent;
-        public string LaunchButtonContent
-        {
-            get => _LaunchButtonContent;
-            set => SetProperty(ref _LaunchButtonContent, value);
         }
 
         public UserDialogState UserDialogCurrentState { get; set; }

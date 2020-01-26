@@ -16,10 +16,10 @@
         </Grid.RowDefinitions>
 
         <TextBlock Text="正在准备启动 Minecraft" FontSize="18" VerticalAlignment="Center" Margin="10,0,0,0"/>
-        <Button Content="取消启动" Style="{StaticResource ButtonRevealStyle}" Width="100" Height="25" HorizontalAlignment="Right" Margin="0,0,10,0"/>
+        <Button Content="取消启动" Style="{StaticResource ButtonRevealStyle}" Width="100" Height="25" HorizontalAlignment="Right" Margin="0,0,10,0" Click="Button_Click"/>
 
         <Controls:ProgressRing Grid.Row="1" Width="20" Height="20" HorizontalAlignment="Left" Margin="10,0,0,0" />
-        <TextBlock Text="正在检查版本文件" Grid.Row="1" FontSize="14" VerticalAlignment="Center" Margin="40,0,0,0"/>
+        <TextBlock Text="{Binding ProgressDescriptionText, Mode=OneWay}" Grid.Row="1" FontSize="14" VerticalAlignment="Center" Margin="40,0,0,0"/>
 
         <ListView SelectionMode="Single" Grid.Row="2" 
                   ItemsSource="{Binding DownloadQuene}" BorderThickness="0" Margin="10,0">
@@ -46,6 +46,6 @@
             </ListView.ItemTemplate>
         </ListView>
 
-        <Controls:MetroProgressBar Grid.Row="3" Value="100" Margin="10"/>
+        <Controls:MetroProgressBar Grid.Row="3" Value="{Binding LaunchingProgress, Mode=OneWay}" Margin="10"/>
     </Grid>
 </UserControl>

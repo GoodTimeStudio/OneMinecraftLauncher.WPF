@@ -33,7 +33,7 @@
     </UserControl.Resources>
 
     <Border BorderBrush="Black" BorderThickness="0,1,0,0">
-        <Grid Background="{fw:AcrylicBrush TintOpacity=0.5}">
+        <Grid>
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="250" />
                 <ColumnDefinition ></ColumnDefinition>
@@ -70,31 +70,27 @@
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition />
                         </Grid.ColumnDefinitions>
-                        <Button Content="添加整合包" Background="SkyBlue" Click="Button_AddOption_Click"/>
+                        <Button Content="新建整合包" Background="SkyBlue" Click="Button_AddOption_Click"/>
                     </Grid>
                 </Grid>
             </Border>
 
-
-            <!--<Grid.RowDefinitions>
-            <RowDefinition Height="120" />
-            <RowDefinition />
-        </Grid.RowDefinitions>-->
-
             <Grid Grid.Column="1">
+                <Grid.Background>
+                    <ImageBrush ImageSource="pack://application:,,,/Resources/StartPageDefaultBackground.png" />
+                </Grid.Background>
                 <Grid.RowDefinitions>
                     <RowDefinition Height="120" />
                     <RowDefinition />
                 </Grid.RowDefinitions>
                 <Grid>
-                    <TextBlock Text="开始" FontSize="45" VerticalAlignment="Center" HorizontalAlignment="Left" Margin="30,0,0,0" />
 
-                    <Button HorizontalAlignment="Right" VerticalAlignment="Center"  
-                    IsEnabled="{Binding UserDialogNotWorking, Mode=OneWay}"
-                    Margin="0,0,30,0" BorderThickness="2,2,0,2"
-                    Click="Button_UserDialog_Click" Padding="0"
-                    Style="{StaticResource _UserButtonStyle}"
-                    BorderBrush="DarkGray">
+                    <Button HorizontalAlignment="Right" VerticalAlignment="Center"
+                        IsEnabled="{Binding UserDialogNotWorking, Mode=OneWay}"
+                        Margin="0,0,30,0" BorderThickness="2,2,0,2"
+                        Click="Button_UserDialog_Click" Padding="0"
+                        Style="{StaticResource _UserButtonStyle}"
+                        BorderBrush="Gray">
 
                         <Grid Height="40" Width="250" Background="Transparent">
                             <Grid.ColumnDefinitions>
@@ -102,15 +98,16 @@
                                 <ColumnDefinition Width="40" />
                             </Grid.ColumnDefinitions>
                             <TextBlock Text="{Binding PlayerName, Mode=OneWay}" VerticalAlignment="Center" 
-                            HorizontalAlignment="Center" FontSize="20"/>
-                            <Grid Grid.Column="1" Background="DarkGray">
+                                HorizontalAlignment="Center" FontSize="20"/>
+                            <Grid Grid.Column="1" Background="Gray">
                                 <TextBlock FontFamily="Segoe MDL2 Assets" FontSize="30" Foreground="White"
-                            HorizontalAlignment="Center" VerticalAlignment="Center">&#xE77B;</TextBlock>
+                                    HorizontalAlignment="Center" VerticalAlignment="Center">&#xE77B;</TextBlock>
                             </Grid>
                         </Grid>
                     </Button>
-                    <Controls:MetroProgressBar HorizontalAlignment="Right"  IsIndeterminate="{Binding UserDialogWorking, Mode=OneWay}"
-                    Margin="0,87,30,23" Width="250" />
+                    <Controls:MetroProgressBar HorizontalAlignment="Right"  IsIndeterminate="True" 
+                                               Visibility="{Binding UserDialogProgressBarVisbility, Mode=OneWay}"
+                                               Margin="0,87,30,23" Width="250" />
 
                 </Grid>
 

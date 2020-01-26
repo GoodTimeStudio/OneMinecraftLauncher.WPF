@@ -1,9 +1,10 @@
-﻿using AltoHttp;
-using GoodTimeStudio.OneMinecraftLauncher.Core.Models;
+﻿using GoodTimeStudio.OneMinecraftLauncher.Core.Models;
 using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Net;
+using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
 using System.Timers;
@@ -12,19 +13,15 @@ namespace GoodTimeStudio.OneMinecraftLauncher.WPF.Downloading
 {
     public class DownloadItem : BindableBase
     {
-        private DownloadManager _manager;
-
-        private Timer _timer;
-
         public string Name { get; set; }
 
         public string Path { get; set; }
 
         public Uri Uri { get; set; }
 
-        public HttpDownloader Operation { get; set; }
-
         public ItemState State { get; set; }
+
+        private Action<DownloadItem> DownloadCompletedAction;
 
         public DownloadItem(string name, string path, Uri uri)
         {
@@ -32,13 +29,15 @@ namespace GoodTimeStudio.OneMinecraftLauncher.WPF.Downloading
             Path = path;
             Uri = uri;
             Progress = 0;
-            Operation = new HttpDownloader(uri.AbsoluteUri, path);
             State = ItemState.Standby;
-            _timer = new Timer(100);
-            _timer.Elapsed += _timer_Elapsed;
         }
 
-        public void Start(DownloadManager manager)
+        public DownloadItem(string name, string path, Uri uri, Action<DownloadItem> downloadCompletedAction) : this(name, path, uri)
+        {
+            DownloadCompletedAction = downloadCompletedAction;
+        }
+
+        public async Task Start(System.Threading.CancellationTokenSource cancellationTokenSource)
         {
             if (State != ItemState.Standby)
             {
@@ -48,38 +47,46 @@ namespace GoodTimeStudio.OneMinecraftLauncher.WPF.Downloading
             State = ItemState.Downloading;
             Console.WriteLine("Attempt to download: " + Name);
 
-
-            _manager = manager;
-            if (_manager.Source != null)
+            WebClient client = null;
+            try
             {
-                Uri = _manager.Source.GetDownloadUrl(Uri);
-            }
-            FileInfo file = new FileInfo(Path);
-            if (!file.Directory.Exists)
-            {
-                file.Directory.Create();
-            }
-            File.Create(Path).Dispose();
-            _timer.Start();
-            Operation.Start();
+                FileInfo file = new FileInfo(Path);
+                if (!file.Directory.Exists)
+                {
+                    file.Directory.Create();
+                }
 
-            Console.WriteLine("Download completed: " + Name);
+                client = new WebClient();
+                client.DownloadProgressChanged += Client_DownloadProgressChanged;
+                await client.DownloadFileTaskAsync(Uri, Path);
+
+                Console.WriteLine("Download completed: " + Name);
+                State = ItemState.Completed;
+                DownloadCompletedAction?.Invoke(this);
+            }
+            catch (OperationCanceledException e)
+            {
+                Console.WriteLine("Download canceled: " + Name);
+                State = ItemState.Cancelled;
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine("Downlaod failed: " + Name);
+                Console.WriteLine(e.Message);
+                Console.WriteLine(e.StackTrace);
+                State = ItemState.Failed;
+                ErrorText = e.Message;
+            }
+            finally
+            {
+                client?.Dispose();
+            }
         }
 
-        public void Cancel()
+        private void Client_DownloadProgressChanged(object sender, DownloadProgressChangedEventArgs e)
         {
-            if (Operation.State == DownloadState.Downloading)
-            {
-                Operation.Cancel();
-                _timer.Stop();
-            }
-            Console.WriteLine("Download canceled: " + Name);
-        }
-
-        private void _timer_Elapsed(object sender, ElapsedEventArgs e)
-        {
-            Progress = Math.Round(Operation.ProgressInPercent, 1);
-            DisplaySize = Math.Round(Operation.TotalBytesReceived / 1024d / 1024d, 2) + "/" + Math.Round(Operation.SizeInBytes / 1024d / 1024d, 2) + " Mb";
+            Progress = e.ProgressPercentage;
+            DisplaySize = Math.Round(e.BytesReceived / 1024d / 1024d, 2) + "/" + Math.Round(e.TotalBytesToReceive / 1024d / 1024d, 2) + " Mb";
         }
 
         private double progress;
@@ -120,7 +127,8 @@ namespace GoodTimeStudio.OneMinecraftLauncher.WPF.Downloading
         Downloading,
         Completed,
         Pause,
-        Failed
+        Failed,
+        Cancelled
     }
 
 }

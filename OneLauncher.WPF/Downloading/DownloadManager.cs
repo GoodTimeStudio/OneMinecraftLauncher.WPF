@@ -2,9 +2,11 @@
 using GoodTimeStudio.OneMinecraftLauncher.Core.Models;
 using GoodTimeStudio.OneMinecraftLauncher.WPF.Models;
 using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace GoodTimeStudio.OneMinecraftLauncher.WPF.Downloading
@@ -16,7 +18,9 @@ namespace GoodTimeStudio.OneMinecraftLauncher.WPF.Downloading
         /// </summary>
         private static readonly int MaxDownloadingCount = 10;
 
-        private ObservableCollection<DownloadItem> _list;
+        private CancellationTokenSource cancellationTokenSource;
+
+        private List<DownloadItem> _list;
         public IDownloadSource Source;
         private bool isDownloading = false;
 
@@ -56,34 +60,41 @@ namespace GoodTimeStudio.OneMinecraftLauncher.WPF.Downloading
             set => SetProperty(ref _ProgressTextInCount, value);
         }
 
-        public event EventHandler DownloadCompleted;
-
-        public DownloadManager(ref ObservableCollection<DownloadItem> list, IDownloadSource source)
+        public DownloadManager(List<DownloadItem> list, IDownloadSource source)
         {
             _list = list;
             Source = source;
             ItemCount = list.Count;
+            cancellationTokenSource = new CancellationTokenSource();
         }
 
-        public void StartDownload()
+        public async Task DownloadAll()
         {
             if (!isDownloading)
             {
-                Parallel.ForEach(_list, new ParallelOptions { MaxDegreeOfParallelism = MaxDownloadingCount }, Download);
-            }
-        }
+                List<Task> tasks = new List<Task>(MaxDownloadingCount);
 
-        private void Download(DownloadItem item)
-        {
-            item.Start(this);
+                foreach(DownloadItem item in _list)
+                {
+                    if (tasks.Count >= MaxDownloadingCount)
+                    {
+                        Task completed = await Task.WhenAny(tasks);
+                        tasks.Remove(completed);
+                    }
+                    if (cancellationTokenSource.IsCancellationRequested)
+                    {
+                        break;
+                    }
+                    tasks.Add(item.Start(cancellationTokenSource));
+                }
+
+                await Task.WhenAll(tasks);
+            }
         }
 
         public void Cancel()
         {
-            for (int i = 0; i < _list.Count; i++)
-            {
-                _list[i].Cancel();
-            }
+            cancellationTokenSource.Cancel();
         }
 
     }
